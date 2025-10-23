@@ -342,7 +342,7 @@ jobs:
           curl -f https://staging-frontend-url.com
 
       - name: Notify deployment
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             github.rest.issues.createComment({
@@ -395,7 +395,7 @@ jobs:
           curl -f https://production-backend-url.com/api/v1/performance/system
 
       - name: Update deployment status
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             github.rest.issues.createComment({
