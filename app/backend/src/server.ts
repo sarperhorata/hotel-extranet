@@ -41,7 +41,7 @@ import paymentRoutes from './modules/payments/payment.routes';
 import notificationRoutes from './modules/notifications/notification.routes';
 
 // Import WebSocket setup
-import { setupWebSocket } from './websocket/socket';
+import { initializeSocket } from './websocket/socket';
 
 // Load environment variables
 dotenv.config();
@@ -113,7 +113,7 @@ app.use(cors({
     if (isAllowed) {
       callback(null, true);
     } else {
-      logger.warn('CORS blocked origin', { origin, ip: req.ip });
+      logger.warn('CORS blocked origin', { origin, ip: req?.ip });
       callback(new Error('Not allowed by CORS'));
     }
   },
@@ -221,7 +221,7 @@ app.use(sentryService.getErrorHandler());
 app.use(errorHandler);
 
 // Setup WebSocket
-setupWebSocket(io);
+initializeSocket(server);
 
 // Graceful shutdown with Sentry cleanup
 const gracefulShutdown = async (signal: string) => {

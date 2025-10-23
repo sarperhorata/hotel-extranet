@@ -21,6 +21,22 @@ services:
       timeout: 5s
       retries: 5
 
+  # pgAdmin - Database Management Interface
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: hotel-extranet-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@hotel-extranet.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+
   # Backend API
   backend:
     build:
@@ -99,6 +115,7 @@ services:
 volumes:
   postgres_data:
   redis_data:
+  pgadmin_data:
 
 networks:
   default:
