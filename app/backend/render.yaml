@@ -1,0 +1,52 @@
+services:
+  - type: web
+    name: hotel-extranet-backend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    autoDeploy: false
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      # Database URL will be provided by Render PostgreSQL service
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: RESEND_API_KEY
+        fromSecret: resend-api-key
+      - key: FROM_EMAIL
+        fromSecret: from-email
+      - key: FRONTEND_URL
+        fromSecret: frontend-url
+      - key: CORS_ORIGIN
+        fromSecret: cors-origin
+
+  - type: pserv
+    name: hotel-extranet-database
+    ipAllowList: []  # Only accessible by other services in this project
+
+databases:
+  - name: hotel-extranet-db
+    databaseName: hotel_extranet
+    user: hotel_extranet_user
+    plan: starter
+
+staticSites:
+  - name: hotel-extranet-frontend
+    buildCommand: npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: hotel-extranet-backend
+          property: host
+      - key: VITE_WS_URL
+        fromService:
+          type: web
+          name: hotel-extranet-backend
+          property: host

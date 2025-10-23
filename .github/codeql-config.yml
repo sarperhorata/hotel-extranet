@@ -1,0 +1,76 @@
+name: "Hotel Extranet Security Analysis"
+
+disable-default-queries: false
+
+queries:
+  # JavaScript/TypeScript Security Queries
+  - uses: security-and-quality
+  - uses: security-experimental
+
+paths-ignore:
+  # Ignore test files for security scanning
+  - "**/*.test.ts"
+  - "**/*.test.js"
+  - "**/*.spec.ts"
+  - "**/*.spec.js"
+  - "**/test/**"
+  - "**/tests/**"
+  - "**/__tests__/**"
+  - "**/coverage/**"
+  - "**/node_modules/**"
+  - "**/dist/**"
+  - "**/build/**"
+  - "**/.git/**"
+  - "**/docs/**"
+
+paths:
+  - "app/backend/src"
+  - "app/frontend/src"
+
+rules:
+  # Security Rules
+  - id: js/sql-injection
+    severity: error
+    message: "Potential SQL injection vulnerability detected"
+
+  - id: js/xss
+    severity: error
+    message: "Potential XSS vulnerability detected"
+
+  - id: js/path-traversal
+    severity: error
+    message: "Potential path traversal vulnerability detected"
+
+  - id: js/insecure-randomness
+    severity: warning
+    message: "Insecure random number generation detected"
+
+  - id: js/weak-cryptography
+    severity: error
+    message: "Weak cryptographic implementation detected"
+
+  - id: js/hardcoded-secret
+    severity: error
+    message: "Hardcoded secret detected"
+
+  # Code Quality Rules
+  - id: js/unused-variable
+    severity: warning
+    message: "Unused variable detected"
+
+  - id: js/missing-await
+    severity: warning
+    message: "Missing await for async function"
+
+  - id: js/no-console-log
+    severity: info
+    message: "Console.log statement detected"
+
+  # Performance Rules
+  - id: js/inefficient-loop
+    severity: warning
+    message: "Potentially inefficient loop detected"
+
+  - id: js/large-object-literal
+    severity: info
+    message: "Large object literal detected"

@@ -1,0 +1,148 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_VERSION = "8"
+
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.images]
+  compress = true
+
+# Redirects for SPA routing
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:;"
+
+# Cache headers for static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Environment variables
+[context.production.environment]
+  NODE_ENV = "production"
+  VITE_API_URL = "https://your-backend-url.com/api/v1"
+  VITE_APP_NAME = "Hotel Extranet"
+  VITE_APP_VERSION = "1.0.0"
+
+[context.staging.environment]
+  NODE_ENV = "staging"
+  VITE_API_URL = "https://staging-backend-url.com/api/v1"
+  VITE_APP_NAME = "Hotel Extranet (Staging)"
+  VITE_APP_VERSION = "1.0.0-staging"
+
+[context.development.environment]
+  NODE_ENV = "development"
+  VITE_API_URL = "http://localhost:5000/api/v1"
+  VITE_APP_NAME = "Hotel Extranet (Dev)"
+  VITE_APP_VERSION = "1.0.0-dev"
+
+# Branch-specific builds
+[context.production]
+  command = "npm run build:production"
+
+[context.staging]
+  command = "npm run build:staging"
+
+[context.development]
+  command = "npm run build:development"
+
+# Form handling
+[build.processing.functions]
+  directory = "netlify/functions"
+
+# Edge functions
+[[edge_functions]]
+  function = "auth"
+  path = "/api/auth/*"
+
+[[edge_functions]]
+  function = "proxy"
+  path = "/api/proxy/*"
+
+# Plugin configuration
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+
+  [plugins.inputs.thresholds]
+    performance = 0.8
+    accessibility = 0.9
+    best-practices = 0.9
+    seo = 0.9
+
+[[plugins]]
+  package = "@netlify/plugin-sitemap"
+
+  [plugins.inputs]
+    buildDir = "dist"
+    exclude = ["/admin/*", "/api/*"]
+
+# Deploy previews
+[build.processing.deploy_preview]
+  command = "npm run build:preview"
+
+# Build hooks
+[build.processing.build_hooks]
+  pre_build = "npm run prebuild"
+  post_build = "npm run postbuild"
+
+# Custom 404 page
+[[redirects]]
+  from = "/404"
+  to = "/index.html"
+  status = 404
+
+# API proxy for development
+[[redirects]]
+  from = "/api/*"
+  to = "https://your-backend-url.com/api/:splat"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
