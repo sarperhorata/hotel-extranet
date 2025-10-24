@@ -217,7 +217,7 @@ const Dashboard: React.FC = () => {
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
-                  {stats.recentBookings.map((booking) => (
+                  {stats.recentBookings?.map((booking) => (
                     <CTableRow key={booking.id}>
                       <CTableDataCell>{booking.bookingReference}</CTableDataCell>
                       <CTableDataCell>
