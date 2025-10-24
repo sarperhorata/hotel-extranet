@@ -9,14 +9,14 @@ import {
   changePassword 
 } from './auth.controller';
 import { authenticateToken, authenticateRefreshToken } from '../../middlewares/auth';
-import { authRateLimiter } from '../../middlewares/rateLimiter';
+import { rateLimiter } from '../../middlewares/rateLimiter';
 
 const router = Router();
 
 // Public routes (with rate limiting)
-router.post('/register', authRateLimiter, register);
-router.post('/login', authRateLimiter, login);
-router.post('/refresh', authRateLimiter, authenticateRefreshToken, refreshToken);
+router.post('/register', rateLimiter, register);
+router.post('/login', rateLimiter, login);
+router.post('/refresh', rateLimiter, authenticateRefreshToken, refreshToken);
 
 // Protected routes
 router.post('/logout', authenticateToken, logout);

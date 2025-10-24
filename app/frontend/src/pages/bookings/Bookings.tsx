@@ -29,7 +29,7 @@ import {
   CModalBody,
   CModalFooter,
 } from '@coreui/react';
-import { cilSearch, cilOptions, cilEye, cilPencil, cilBan, cilCalendar, cilDollar } from '@coreui/icons';
+import { cilSearch, cilOptions, cilList, cilPencil, cilBan, cilCalendar, cilDollar } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 
 import { Booking, BookingFilters } from '../../types';
@@ -307,7 +307,7 @@ const Bookings: React.FC = () => {
                       </CDropdownToggle>
                       <CDropdownMenu>
                         <CDropdownItem as={Link} to={`/bookings/${booking.id}`}>
-                          <CIcon icon={cilEye} className="me-2" />
+                          <CIcon icon={cilList} className="me-2" />
                           View Details
                         </CDropdownItem>
                         {booking.status === 'confirmed' && (

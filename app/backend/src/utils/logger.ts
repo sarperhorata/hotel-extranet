@@ -129,7 +129,7 @@ fileTransports.push(
 );
 
 // Create the logger
-export const logger = winston.createLogger({
+const loggerInstance = winston.createLogger({
   level: config.LOG_LEVEL || 'info',
   levels,
   transports: process.env.NODE_ENV === 'production' ? fileTransports : [consoleTransport],
@@ -158,8 +158,13 @@ export const logger = winston.createLogger({
 
 // Add console transport in development
 if (process.env.NODE_ENV !== 'production') {
-  logger.add(consoleTransport);
+  loggerInstance.add(consoleTransport);
 }
+
+// Export logger with custom methods
+export const logger = loggerInstance as any;
+logger.audit = (message: string, meta?: any) => loggerInstance.log('audit', message, meta);
+logger.performance = (message: string, meta?: any) => loggerInstance.log('performance', message, meta);
 
 // Morgan stream for HTTP request logging
 export const morganStream = {

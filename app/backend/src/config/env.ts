@@ -4,6 +4,20 @@ import Joi from 'joi';
 // Load environment variables
 dotenv.config();
 
+// Parse DATABASE_URL and override individual DB variables if DATABASE_URL is provided
+if (process.env.DATABASE_URL) {
+  try {
+    const url = new URL(process.env.DATABASE_URL);
+    process.env.DB_HOST = url.hostname;
+    process.env.DB_PORT = url.port;
+    process.env.DB_NAME = url.pathname.slice(1); // Remove leading '/'
+    process.env.DB_USER = url.username;
+    process.env.DB_PASSWORD = url.password;
+  } catch (error) {
+    console.log('Failed to parse DATABASE_URL:', error);
+  }
+}
+
 // Environment validation schema
 const envSchema = Joi.object({
   NODE_ENV: Joi.string()
@@ -31,10 +45,10 @@ const envSchema = Joi.object({
     .default('hotel_extranet'),
   
   DB_USER: Joi.string()
-    .required(),
-  
+    .optional(),
+
   DB_PASSWORD: Joi.string()
-    .required(),
+    .optional(),
   
   // JWT
   JWT_SECRET: Joi.string()
@@ -47,9 +61,13 @@ const envSchema = Joi.object({
   
   JWT_EXPIRES_IN: Joi.string()
     .default('15m'),
-  
+
   JWT_REFRESH_EXPIRES_IN: Joi.string()
     .default('7d'),
+
+  SESSION_SECRET: Joi.string()
+    .min(32)
+    .required(),
   
   // Email
   RESEND_API_KEY: Joi.string()
@@ -67,8 +85,11 @@ const envSchema = Joi.object({
     .uri()
     .default('http://localhost:5173'),
   
-  CORS_ORIGIN: Joi.string()
-    .uri()
+  CORS_ORIGIN: Joi.alternatives()
+    .try(
+      Joi.string().uri(),
+      Joi.string().pattern(/^https?:\/\/.+$/)
+    )
     .default('http://localhost:5173'),
   
   // WebSocket
@@ -83,10 +104,6 @@ const envSchema = Joi.object({
     .default(100),
   
   // Logging
-  LOG_LEVEL: Joi.string()
-    .valid('error', 'warn', 'info', 'debug')
-    .default('info'),
-  
   LOG_FILE: Joi.string()
     .default('logs/app.log'),
   
@@ -100,10 +117,6 @@ const envSchema = Joi.object({
   // Security
   BCRYPT_ROUNDS: Joi.number()
     .default(12),
-  
-  SESSION_SECRET: Joi.string()
-    .min(32)
-    .required(),
   
   // External APIs
   UPTIME_ROBOT_API_KEY: Joi.string()
@@ -168,6 +181,14 @@ if (error) {
   throw new Error(`Environment validation error: ${error.message}`);
 }
 
+// Validate that we have DB credentials
+if (!process.env.DB_USER) {
+  throw new Error('DB_USER must be provided (either directly or via DATABASE_URL)');
+}
+if (!process.env.DB_PASSWORD) {
+  throw new Error('DB_PASSWORD must be provided (either directly or via DATABASE_URL)');
+}
+
 // Export validated environment variables
 export const config = {
   // Server
@@ -175,19 +196,20 @@ export const config = {
   PORT: envVars.PORT,
   
   // Database
-  DATABASE_URL: envVars.DATABASE_URL,
-  DB_HOST: envVars.DB_HOST,
-  DB_PORT: envVars.DB_PORT,
-  DB_NAME: envVars.DB_NAME,
-  DB_USER: envVars.DB_USER,
-  DB_PASSWORD: envVars.DB_PASSWORD,
+  DATABASE_URL: process.env.DATABASE_URL,
+  DB_HOST: process.env.DB_HOST,
+  DB_PORT: parseInt(process.env.DB_PORT || '5432', 10),
+  DB_NAME: process.env.DB_NAME,
+  DB_USER: process.env.DB_USER,
+  DB_PASSWORD: process.env.DB_PASSWORD,
   
   // JWT
   JWT_SECRET: envVars.JWT_SECRET,
   JWT_REFRESH_SECRET: envVars.JWT_REFRESH_SECRET,
   JWT_EXPIRES_IN: envVars.JWT_EXPIRES_IN,
   JWT_REFRESH_EXPIRES_IN: envVars.JWT_REFRESH_EXPIRES_IN,
-  
+  SESSION_SECRET: envVars.SESSION_SECRET,
+
   // Email
   RESEND_API_KEY: envVars.RESEND_API_KEY,
   FROM_EMAIL: envVars.FROM_EMAIL,
@@ -206,6 +228,7 @@ export const config = {
   
   // Logging & Monitoring
   LOG_LEVEL: envVars.LOG_LEVEL,
+  LOG_FILE: envVars.LOG_FILE,
 
   // Sentry Error Tracking
   SENTRY_DSN: envVars.SENTRY_DSN,
@@ -231,7 +254,6 @@ export const config = {
   
   // Security
   BCRYPT_ROUNDS: envVars.BCRYPT_ROUNDS,
-  SESSION_SECRET: envVars.SESSION_SECRET,
   
   // External APIs
   UPTIME_ROBOT_API_KEY: envVars.UPTIME_ROBOT_API_KEY

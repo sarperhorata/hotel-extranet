@@ -25,8 +25,8 @@ import {
   cilCalendar,
   cilDollar,
   cilPeople,
-  cilTrendingUp,
-  cilTrendingDown,
+  cilArrowTop,
+  cilArrowBottom,
 } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 
@@ -187,7 +187,7 @@ const Dashboard: React.FC = () => {
         <CCol xs={12} md={6}>
           <CWidgetStatsC
             className="mb-4"
-            icon={<CIcon icon={cilTrendingUp} size="xl" />}
+            icon={<CIcon icon={cilArrowTop} size="xl" />}
             color="success"
             title="Average Daily Rate"
             value={formatCurrency(stats.averageDailyRate)}

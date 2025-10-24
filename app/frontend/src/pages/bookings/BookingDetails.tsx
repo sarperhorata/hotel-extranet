@@ -24,7 +24,7 @@ import {
   CFormInput,
   CFormLabel,
 } from '@coreui/react';
-import { cilArrowLeft, cilEdit, cilTrash, cilPrint, cilEnvelope } from '@coreui/icons';
+import { cilArrowLeft, cilPencil, cilTrash, cilPrint, cilEnvelopeClosed } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 
 import { Booking } from '../../types';
@@ -291,14 +291,14 @@ const BookingDetails: React.FC = () => {
                     </>
                   ) : (
                     <>
-                      <CIcon icon={cilEnvelope} className="me-2" />
+                      <CIcon icon={cilEnvelopeClosed} className="me-2" />
                       Send Confirmation
                     </>
                   )}
                 </CButton>
 
                 <CButton color="secondary" variant="outline">
-                  <CIcon icon={cilEdit} className="me-2" />
+                  <CIcon icon={cilPencil} className="me-2" />
                   Edit Booking
                 </CButton>
 

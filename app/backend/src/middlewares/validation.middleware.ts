@@ -487,7 +487,7 @@ export const sqlInjectionDetection = (req: Request, res: Response, next: NextFun
   const sqlPatterns = [
     /(\b(union|select|insert|update|delete|drop|create|alter|exec|execute)\b)/gi,
     /(\b(or|and)\s+\d+\s*=\s*\d+)/gi,
-    /('|(\\')|(;)|(\|\|)/g,
+    /('|(\\')|(;)|(\|\|))/g,
     /(<script|javascript:|vbscript:|onload=|onerror=)/gi
   ];
 

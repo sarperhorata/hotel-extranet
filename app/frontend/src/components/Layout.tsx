@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation, NavLink } from 'react-router-dom';
 import {
   CContainer,
   CHeader,
@@ -11,8 +11,6 @@ import {
   CSidebar,
   CSidebarBrand,
   CSidebarNav,
-  CSidebarNavItem,
-  CSidebarNavLink,
   CSidebarToggler,
   CNavTitle,
   CNavGroup,
@@ -155,15 +153,15 @@ const Layout: React.FC = () => {
                 >
                   {item.children.map((child) => (
                     <CNavGroupItems key={child.to}>
-                      <CSidebarNavLink to={child.to}>
+                      <CNavLink as={NavLink} to={child.to}>
                         {child.name}
-                      </CSidebarNavLink>
+                      </CNavLink>
                     </CNavGroupItems>
                   ))}
                 </CNavGroup>
               ) : (
-                <CSidebarNavItem>
-                  <CSidebarNavLink to={item.to}>
+                <CNavItem>
+                  <CNavLink as={NavLink} to={item.to}>
                     <CIcon icon={item.icon} className="nav-icon" />
                     {item.name}
                     {item.badge && (
@@ -171,8 +169,8 @@ const Layout: React.FC = () => {
                         {item.badge}
                       </CBadge>
                     )}
-                  </CSidebarNavLink>
-                </CSidebarNavItem>
+                  </CNavLink>
+                </CNavItem>
               )}
             </React.Fragment>
           ))}

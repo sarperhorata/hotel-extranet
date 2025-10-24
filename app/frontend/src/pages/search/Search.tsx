@@ -21,7 +21,7 @@ import {
   CModalBody,
   CModalFooter,
 } from '@coreui/react';
-import { cilSearch, cilCalendar, cilPeople, cilBed, cilStar, cilMapMarker, cilDollar } from '@coreui/icons';
+import { cilSearch, cilCalendar, cilPeople, cilBed, cilStar, cilLocationPin, cilDollar } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import { format, addDays } from 'date-fns';
 
@@ -342,7 +342,7 @@ const Search: React.FC = () => {
                                 <div className="flex-grow-1">
                                   <h6 className="mb-1">{result.property.name}</h6>
                                   <div className="d-flex align-items-center text-muted mb-2">
-                                    <CIcon icon={cilMapMarker} className="me-1" />
+                                    <CIcon icon={cilLocationPin} className="me-1" />
                                     <small>
                                       {result.property.city}, {result.property.country}
                                     </small>
@@ -363,7 +363,7 @@ const Search: React.FC = () => {
                                       {result.room.amenities.slice(0, 3).map(amenity => (
                                         <CBadge key={amenity} color="light" className="me-1 mb-1">
                                           {amenity}
-                                        </Badge>
+                                        </CBadge>
                                       ))}
                                       {result.room.amenities.length > 3 && (
                                         <CBadge color="light">

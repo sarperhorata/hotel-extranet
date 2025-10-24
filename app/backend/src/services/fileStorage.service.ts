@@ -33,7 +33,7 @@ export abstract class FileStorageProvider {
   abstract listFiles(prefix?: string): Promise<string[]>;
 }
 
-export class AWS S3Provider extends FileStorageProvider {
+export class AWSS3Provider extends FileStorageProvider {
   private accessKeyId: string;
   private secretAccessKey: string;
   private region: string;
@@ -251,7 +251,7 @@ export class FileStorageFactory {
   static createProvider(providerType: 'aws' | 'cloudinary' | 'local'): FileStorageProvider {
     switch (providerType) {
       case 'aws':
-        return new AWS S3Provider();
+        return new AWSS3Provider();
       case 'cloudinary':
         return new CloudinaryProvider();
       case 'local':
@@ -420,7 +420,7 @@ export class FileStorageFactory {
   static createProvider(providerType: 'aws' | 'cloudinary' | 'local'): FileStorageProvider {
     switch (providerType) {
       case 'aws':
-        return new AWS S3Provider();
+        return new AWSS3Provider();
       case 'cloudinary':
         return new CloudinaryProvider();
       case 'local':

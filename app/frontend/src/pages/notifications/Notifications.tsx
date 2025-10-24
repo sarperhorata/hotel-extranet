@@ -20,7 +20,7 @@ import {
   CFormSelect,
   CAlert,
 } from '@coreui/react';
-import { cilSearch, cilBell, cilCheck, cilCheckAll, cilEnvelopeClosed } from '@coreui/icons';
+import { cilSearch, cilBell, cilCheck, cilTask, cilEnvelopeClosed } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 
 import { Notification } from '../../types';
@@ -157,7 +157,7 @@ const Notifications: React.FC = () => {
         <div className="d-flex gap-2">
           {unreadCount > 0 && (
             <CButton color="outline-primary" onClick={handleMarkAllAsRead}>
-              <CIcon icon={cilCheckAll} className="me-2" />
+              <CIcon icon={cilTask} className="me-2" />
               Mark All Read ({unreadCount})
             </CButton>
           )}

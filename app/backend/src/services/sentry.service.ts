@@ -265,7 +265,7 @@ export class SentryService {
   // Middleware for Express error handling
   getErrorHandler() {
     return Sentry.Handlers.errorHandler({
-      shouldHandleError(error) {
+      shouldHandleError(error: any) {
         // Handle all errors in production
         return process.env.NODE_ENV === 'production';
       }

@@ -27,7 +27,7 @@ import {
   CInputGroupText,
   CAlert,
 } from '@coreui/react';
-import { cilCalendar, cilEdit, cilPlus, cilSave, cilX } from '@coreui/icons';
+import { cilCalendar, cilPencil, cilPlus, cilSave, cilX } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 import { format, addDays, startOfWeek, endOfWeek } from 'date-fns';
 
@@ -304,7 +304,7 @@ const Inventory: React.FC = () => {
                       color="outline-primary"
                       onClick={() => handleEditInventory(inv)}
                     >
-                      <CIcon icon={cilEdit} />
+                      <CIcon icon={cilPencil} />
                     </CButton>
                   </CTableDataCell>
                 </CTableRow>
