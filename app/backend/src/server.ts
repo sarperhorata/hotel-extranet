@@ -212,6 +212,23 @@ app.get('/api/v1', (req, res) => {
   });
 });
 
+// Dashboard endpoint
+app.get('/api/v1/dashboard/stats', (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      totalProperties: 0,
+      totalRooms: 0,
+      totalBookings: 0,
+      totalRevenue: 0,
+      occupancyRate: 0,
+      averageDailyRate: 0,
+      recentBookings: [],
+      revenueByMonth: []
+    }
+  });
+});
+
 // API routes
 app.use('/api/v1/auth', authRoutes);
 // app.use('/api/v1/tenants', tenantRoutes);
