@@ -224,6 +224,7 @@ app.get('/api/v1/dashboard/stats', (req, res) => {
       occupancyRate: 0,
       averageDailyRate: 0,
       recentBookings: [],
+      recentNotifications: [],
       revenueByMonth: []
     }
   });

@@ -260,7 +260,7 @@ const Dashboard: React.FC = () => {
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
-                  {stats.recentNotifications.map((notification) => (
+                  {stats.recentNotifications?.map((notification) => (
                     <CTableRow key={notification.id}>
                       <CTableDataCell>
                         <CBadge color="info">{notification.type}</CBadge>
