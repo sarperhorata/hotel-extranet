@@ -44,7 +44,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useSocket } from '../contexts/SocketContext';
 
 const Layout: React.FC = () => {
-  const [sidebarVisible, setSidebarVisible] = useState(false);
+  const [sidebarVisible, setSidebarVisible] = useState(true);
   const [sidebarUnfoldable, setSidebarUnfoldable] = useState(false);
   const { user, logout } = useAuth();
   const { notifications, isConnected } = useSocket();
