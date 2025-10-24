@@ -250,7 +250,7 @@ const Layout: React.FC = () => {
 
         <div className="c-body">
           <main className="c-main">
-            <CContainer fluid className="main">
+            <CContainer fluid className="main p-4">
               <Outlet />
             </CContainer>
           </main>
